@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:rive_animation/screens/home/components/destination_screen.dart';
-import '';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rive_animation/model/destination_model.dart';
 
 class DestinationCarousel extends StatelessWidget {
   // ignore: non_constant_identifier_names
   final String str_title; // Add a member variable to store the value
+  final List<Destination> destinations; // Add the second variable
 
+  // Constructor to initialize the values when creating an instance
+  const DestinationCarousel({
+    Key? key,
+    // ignore: non_constant_identifier_names
+    required this.str_title,
+    required this.destinations,
+  }) : super(key: key);
   // Constructor to initialize the value when creating an instance
-  const DestinationCarousel(this.str_title, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -68,7 +75,7 @@ class DestinationCarousel extends StatelessWidget {
                       Positioned(
                         bottom: 15.0,
                         child: Container(
-                          height: 180.0,
+                          height: 120.0,
                           width: 200.0,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -114,7 +121,8 @@ class DestinationCarousel extends StatelessWidget {
                         child: Stack(
                           children: <Widget>[
                             Hero(
-                              tag: destination.imageUrl,
+                              tag:
+                                  '${destination.imageUrl} background', // Unique tag for the background image
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image(
@@ -131,13 +139,16 @@ class DestinationCarousel extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    destination.city,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.2,
+                                  Hero(
+                                    tag: '${destination.imageUrl}_text',
+                                    child: Text(
+                                      destination.city,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 1.2,
+                                      ),
                                     ),
                                   ),
                                   Row(

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rive_animation/screens/Add_recommend/add.dart';
+import 'package:rive_animation/screens/Notifcation/notifcation.dart';
+import 'package:rive_animation/screens/Profile/profile.dart';
+import 'package:rive_animation/screens/demo/demo.dart';
 import 'package:rive_animation/screens/entryPoint/entry_point.dart';
+import 'package:rive_animation/screens/login/Login.dart';
 import 'package:rive_animation/screens/onboding/onboding_screen.dart';
 
 void main() {
@@ -28,7 +33,8 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const OnbodingScreen(),
+      home: Login(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

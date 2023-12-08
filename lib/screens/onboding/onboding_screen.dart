@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:rive_animation/screens/demo/demo.dart';
 
 import 'components/animated_btn.dart';
 import 'components/sign_in_dialog.dart';
@@ -33,26 +34,14 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
       body: Stack(
         children: [
           Positioned(
-            width: MediaQuery.of(context).size.width * 1.7,
-            left: 100,
-            bottom: 100,
+            left: 0,
+            bottom: 0,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Image.asset(
-              "assets/Backgrounds/Spline.png",
-            ),
-          ),
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: const SizedBox(),
-            ),
-          ),
-          const RiveAnimation.asset(
-            "assets/RiveAssets/shapes.riv",
-          ),
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-              child: const SizedBox(),
+              "assets/images/ha-long-bay.png",
+              fit: BoxFit
+                  .cover, // Đảm bảo hình ảnh sẽ che đầy toàn bộ Positioned
             ),
           ),
           AnimatedPositioned(
@@ -69,25 +58,29 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                     const Spacer(),
                     SizedBox(
                       width: 260,
-                      child: Column(
-                        children: const [
-                          Text(
-                            "Learn design & code",
-                            style: TextStyle(
-                              fontSize: 60,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "Poppins",
-                              height: 1.2,
-                            ),
+                    ),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Text(
+                          "Are you ready?",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Poppins",
+                            color: Colors.white,
                           ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Don’t skip design. Learn design and code, by building real apps with Flutter and Swift. Complete courses about the best tools.",
-                          ),
-                        ],
+                        )),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: Text(
+                        "Find your best trip schedule by\nanswering these following question.",
+                        style: TextStyle(
+                          color: Colors.white, // Đặt màu trắng cho văn bản
+                        ),
                       ),
                     ),
-                    const Spacer(flex: 2),
+
+                    // const Spacer(flex: 2),
                     AnimatedBtn(
                       btnAnimationController: _btnAnimationController,
                       press: () {
@@ -99,13 +92,12 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                             setState(() {
                               isShowSignInDialog = true;
                             });
-                            showCustomDialog(
+                            // Navigate to the 'MultipleChoiceQuestion' page
+                            Navigator.push(
                               context,
-                              onValue: (_) {
-                                setState(() {
-                                  isShowSignInDialog = false;
-                                });
-                              },
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MultipleChoiceQuestion()),
                             );
                           },
                         );
@@ -113,9 +105,7 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
-                      child: Text(
-                          "Purchase includes access to 30+ courses, 240+ premium tutorials, 120+ hours of videos, source files and certificates."),
-                    )
+                    ),
                   ],
                 ),
               ),

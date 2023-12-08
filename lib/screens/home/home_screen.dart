@@ -4,12 +4,19 @@ import 'package:rive_animation/screens/widget/item_product.dart';
 import '../../model/course.dart';
 import 'components/course_card.dart';
 import 'components/secondary_course_card.dart';
+import '../../model/destination_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    final String str_title = "Recommended today";
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -42,8 +49,11 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              DestinationCarousel("Recommended today"),
-              DestinationCarousel("Announcements"),
+              DestinationCarousel(
+                  str_title: "Recommended today",
+                  destinations: destinations_rcm),
+              DestinationCarousel(
+                  str_title: "Announcements", destinations: destinations_anno),
               // ...recentCourses
               //     .map((course) => Padding(
               //           padding: const EdgeInsets.only(

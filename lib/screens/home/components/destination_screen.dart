@@ -72,7 +72,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                           onPressed: () => Navigator.pop(context),
                         ),
                         IconButton(
-                          icon: Icon(FontAwesomeIcons.sortAmountDown),
+                          icon: Icon(FontAwesomeIcons.arrowDownWideShort),
                           iconSize: 25.0,
                           color: Colors.black,
                           onPressed: () => Navigator.pop(context),
@@ -128,7 +128,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
               ),
             ],
           ),
-          Expanded(
+          Flexible(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
               itemCount: widget.destination.activities.length,

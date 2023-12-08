@@ -3,7 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
+import 'package:rive_animation/screens/Bedroom/bedroom.dart';
+import 'package:rive_animation/screens/Notifcation/notifcation.dart';
+import 'package:rive_animation/screens/Profile/profile.dart';
+import 'package:rive_animation/screens/demo/demo.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
+import 'package:rive_animation/screens/onboding/onboding_screen.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
@@ -24,6 +29,13 @@ class _EntryPointState extends State<EntryPoint>
 
   Menu selectedBottonNav = bottomNavItems.first;
   Menu selectedSideMenu = sidebarMenus.first;
+  final Map<Menu, Widget> pageMap = {
+    bottomNavItems[0]: HomePage(),
+    bottomNavItems[1]: Bedroom(),
+    bottomNavItems[2]: OnbodingScreen(),
+    bottomNavItems[3]: Notication(),
+    bottomNavItems[4]: ProfileTap(),
+  };
 
   late SMIBool isMenuOpenInput;
 
@@ -39,19 +51,25 @@ class _EntryPointState extends State<EntryPoint>
   late Animation<double> scalAnimation;
   late Animation<double> animation;
 
+  Widget? currentPage; // Variable to track the currently selected page
+
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(
-        () {
-          setState(() {});
-        },
-      );
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() {
+        setState(() {});
+      });
     scalAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.fastOutSlowIn));
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn,
+    ));
     animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.fastOutSlowIn));
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn,
+    ));
+    currentPage = HomePage(); // Set the initial page
     super.initState();
   }
 
@@ -83,16 +101,17 @@ class _EntryPointState extends State<EntryPoint>
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.001)
               ..rotateY(
-                  1 * animation.value - 30 * (animation.value) * pi / 180),
+                1 * animation.value - 30 * (animation.value) * pi / 180,
+              ),
             child: Transform.translate(
               offset: Offset(animation.value * 265, 0),
               child: Transform.scale(
                 scale: scalAnimation.value,
-                child: const ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(24),
                   ),
-                  child: HomePage(),
+                  child: currentPage ?? Container(), // Display the current page
                 ),
               ),
             ),
@@ -120,7 +139,9 @@ class _EntryPointState extends State<EntryPoint>
               },
               riveOnInit: (artboard) {
                 final controller = StateMachineController.fromArtboard(
-                    artboard, "State Machine");
+                  artboard,
+                  "State Machine",
+                );
 
                 artboard.addController(controller!);
 
@@ -162,6 +183,11 @@ class _EntryPointState extends State<EntryPoint>
                       press: () {
                         RiveUtils.chnageSMIBoolState(navBar.rive.status!);
                         updateSelectedBtmNav(navBar);
+
+                        // Update the current page based on the selected bottom navigation item
+                        setState(() {
+                          currentPage = pageMap[navBar];
+                        });
                       },
                       riveOnInit: (artboard) {
                         navBar.rive.status = RiveUtils.getRiveInput(artboard,
